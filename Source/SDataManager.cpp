@@ -73,15 +73,15 @@ namespace utils
                 }
                 if (data_type == "int")
                 {
-                    uType._double = std::stoi(value);
+                    uType._int = std::stoi(value);
                 }
                 if (data_type == "float")
                 {
-                    uType._double = std::stof(value);
+                    uType._float = std::stof(value);
                 }
                 if (data_type == "bool")
                 {
-                    uType._double = std::stoi(value);
+                    uType._bool = std::stoi(value);
                 }
                 return uType;
             }
