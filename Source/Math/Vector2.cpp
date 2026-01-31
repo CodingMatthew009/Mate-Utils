@@ -1,15 +1,19 @@
-#include "Include/Math/Vector2.hpp"
-#include "Include/Math/General.hpp"
+#include "../../Include/Math/Vector2.hpp"
+#include <cmath>
 
 namespace utils::mathf
 {
-
     Vector2::Vector2(double other_x, double other_y)
     {
         x = other_x; y = other_y;
     }
 
-    Vector2::Vector2(Vector2& other)
+    Vector2::Vector2(const Vector2& other)
+    {
+        x = other.x; y = other.y;
+    }
+
+    Vector2::Vector2(const Vector3& other)
     {
         x = other.x; y = other.y;
     }
@@ -22,12 +26,12 @@ namespace utils::mathf
 
     double Vector2::magnitude()
     {
-        return mathf::sqrt(mathf::pow(x, 2) + mathf::pow(y, 2));
+        return std::sqrt(std::pow(x, 2) + std::pow(y, 2));
     }
 
     double Vector2::sqrMagnitude()
     {
-        return mathf::pow(x, 2) + mathf::pow(y, 2);
+        return std::pow(x, 2) + std::pow(y, 2);
     }
 
     void Vector2::set(double newx, double newy)
@@ -40,9 +44,20 @@ namespace utils::mathf
         x = other.x; y = other.y;
     }
 
-    float Vector2::Angle(Vector2 first, Vector2 second)
+    double Vector2::Angle(Vector2 first, Vector2 second)
     {
-        
+        double radians = std::acos(dot(first, second) / (first.magnitude() * second.magnitude()));
+        double degrees = radians * (180/M_PI);
+        return degrees;
+    }
 
+    double Vector2::dot(Vector2 first, Vector2 second)
+    {
+        return (first.x * second.x) + (first.y * second.y);
+    }
+
+    double Vector2::Distance(Vector2 first, Vector2 second)
+    {
+        return (first - second).magnitude();
     }
 }
