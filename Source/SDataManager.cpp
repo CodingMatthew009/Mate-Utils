@@ -1,6 +1,7 @@
 #include "../Include/SDataManager.hpp"
 #include "../Include/General/Enums.hpp"
 #include <fstream>
+#include <sstream>
 #include <string>
 
 namespace utils
@@ -33,16 +34,52 @@ namespace utils
         LOG("Cleared all data inside the save file.", LFlags::INFO);
     }
 
-    SDManager::types SDManager::LoadData(std::string data_type, std::string data_name) const
+    void SDManager::EncryptSaveFile(Encrypter* encrypter) const
     {
-        std::ifstream infile(file_path); 
-        if (!infile)
+        std::ifstream input_stream;
+        std::ofstream output_stream;
+
+        std::string plain_data;
+        std::stringstream buffer;
+
+        input_stream.open(file_path, std::ios::binary);
+        if (!input_stream) {LOG("Failed to open save file for encryption", LFlags::FAILED);}
+
+        buffer << input_stream.rdbuf();
+        plain_data = buffer.str();
+        input_stream.close();
+
+        output_stream.open(file_path, std::ios::binary | std::ios::trunc);
+
+        std::string encrypted_data = encrypter->Encrypt(plain_data);
+        output_stream.write(encrypted_data.data(), encrypted_data.size());
+        output_stream.close();
+        LOG("Encrypted save file", LFlags::SUCCESS);
+    }
+
+    std::string SDManager::DecryptSaveFile(Encrypter* encrypter) const
+    {
+        std::ifstream data_stream;
+        std::stringstream buffer;
+        std::string encrypted_data;
+
+        data_stream.open(file_path, std::ios::binary);
+        if (!data_stream) {LOG("Failed to open save file for decryption", LFlags::FAILED);}
+        else 
         {
-            LOG("Failed to open SaveFile", LFlags::FAILED);
-        } 
-    
+            buffer << data_stream.rdbuf();
+            encrypted_data = buffer.str();
+            return encrypter->Decrypt(encrypted_data);
+        }
+        return "";
+    }
+
+    SDManager::types SDManager::LoadData(std::string decrypted_data, std::string data_type, std::string data_name) const
+    {    
+        std::istringstream data_stream(decrypted_data); //Get stream from the decrypted data
+
         std::string line;
-        while(std::getline(infile, line)) //Go through each line the stream
+        while(std::getline(data_stream, line)) //Go through each line the stream
         {
             std::istringstream iss(line); //Parse the line into words
             std::string name;
@@ -76,7 +113,6 @@ namespace utils
                 {
                     _types = helper::strReplace(value, '~', ' ');
                 }
-                infile.close();
                 std::string message = std::format("Successfully loaded {} from: {}", data_name, file_path);
                 LOG(message, LFlags::SUCCESS);
                 return _types;

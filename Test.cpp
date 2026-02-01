@@ -1,5 +1,6 @@
 
 #include "Include/Clock.hpp"
+#include "Include/DataEncrypter.hpp"
 #include "Include/MLogger.hpp"
 #include "Include/General/Enums.hpp"
 #include "Include/Math/Vector2.hpp"
@@ -21,6 +22,7 @@ int main(void)
 {
     auto* local_clock = &utils::Clock::Instance(); // DO NOT REMOVE, initializes class using current time, may be redone using a macro
     auto* sd_manager = &utils::SDManager::Instance();
+    Encrypter* save_encrypter = new Encrypter("Mates's Encryption Key");
     SET_LOGS_FOLDER("/home/cmate/Documents/MateUtilities/logs"); // KEEP AT THE TOP, some internal logs may break
 
 
@@ -31,26 +33,30 @@ int main(void)
     LOG("-------------Initialized Mate's Utils-------------", utils::LFlags::INFO);
 
 
-    //Saving data for each type
-    sd_manager->SaveData(myDouble, GET_VARIABLE_NAME(myDouble));
-    sd_manager->SaveData(myInt,    GET_VARIABLE_NAME(myInt));
-    sd_manager->SaveData(myFloat,  GET_VARIABLE_NAME(myFloat));
-    sd_manager->SaveData(myBool,   GET_VARIABLE_NAME(myBool));
-
-    sd_manager->SaveData(myString,   GET_VARIABLE_NAME(myString));
+    //Saving block
+    {
+        sd_manager->SaveData(myDouble, GET_VARIABLE_NAME(myDouble)); //Name can be any string
+        sd_manager->SaveData(myInt,    GET_VARIABLE_NAME(myInt));
+        sd_manager->SaveData(myFloat,  GET_VARIABLE_NAME(myFloat));
+        sd_manager->SaveData(myBool,   GET_VARIABLE_NAME(myBool));
+        sd_manager->SaveData(myString, GET_VARIABLE_NAME(myString));
+    
+        // Always do after all saving has occured (Following data will be unencrypted)
+        sd_manager->EncryptSaveFile(save_encrypter); 
+    }
 
     LOG("Saved Data to file!", LFlags::INFO);
     local_clock->Sleep(std::chrono::milliseconds(1000));
     LOG("Loading data!", LFlags::INFO);
 
-    //Loading data based on name and type 
-    
-    auto loaded_int      = std::get<int>    (sd_manager->LoadData("int", "myInt"));
-    auto loaded_float  = std::get<float>  (sd_manager->LoadData("float", "myFloat"));
-    auto loaded_double= std::get<double> (sd_manager->LoadData("double", "myDouble"));
-    auto loaded_bool     = std::get<int>    (sd_manager->LoadData("bool", "myBool"));
+    std::string decrypted_data = sd_manager->DecryptSaveFile(save_encrypter);
 
-    auto loaded_string= std::get<std::string> (sd_manager->LoadData("string", "myString"));
+    auto loaded_int      = std::get<int>    (sd_manager->LoadData(decrypted_data, "int", "myInt"));
+    auto loaded_float  = std::get<float>  (sd_manager->LoadData(decrypted_data, "float", "myFloat"));
+    auto loaded_double= std::get<double> (sd_manager->LoadData(decrypted_data, "double", "myDouble"));
+    auto loaded_bool     = std::get<int>    (sd_manager->LoadData(decrypted_data, "bool", "myBool"));
+
+    auto loaded_string= std::get<std::string> (sd_manager->LoadData(decrypted_data, "string", "myString"));
 
 
     //Converting them to string (For Logging purpose)
@@ -69,4 +75,16 @@ int main(void)
     
     LOG(loaded_string,   LFlags::INFO);
 
+    local_clock->Sleep(std::chrono::seconds(2));
+
+
+    /*Manual Encrypter test
+    Encrypter* myEncrypter = new Encrypter("b210412bn");
+    auto encrypted_data = myEncrypter->Encrypt("std::string Data");
+    LOG(encrypted_data, LFlags::INFO);
+
+    local_clock->Sleep(std::chrono::seconds(2));
+
+    auto decrypted_data = myEncrypter->Decrypt(encrypted_data);
+    LOG(decrypted_data, LFlags::INFO);*/
 }
