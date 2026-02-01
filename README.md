@@ -1,5 +1,5 @@
 
-# Mate's Utils (0.1.0)
+# Mate's Utils (0.1.5)
 
 WIP C++ library including lots of utilities.
 ____________________________________________
