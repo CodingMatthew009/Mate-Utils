@@ -10,26 +10,28 @@
 using namespace utils;
 using namespace mathf;
 
+
+double myDouble = 251.22943712;
+int myInt = 52;
+float myFloat = 23.42;
+bool myBool = true;
+std::string myString = "Hello My Friends";
+
 int main(void)
 {
     auto* local_clock = &utils::Clock::Instance(); // DO NOT REMOVE, initializes class using current time, may be redone using a macro
     auto* sd_manager = &utils::SDManager::Instance();
+    SET_LOGS_FOLDER("/home/cmate/Documents/MateUtilities/logs"); // KEEP AT THE TOP, some internal logs may break
 
-    local_clock->Sleep(std::chrono::milliseconds(2000));
-    LOG("Initialized test script...", utils::LFlags::INFO);
-    
-    double myDouble = 251.22943712;
-    int myInt = 52;
-    float myFloat = 23.42;
-    bool myBool = true;
-    std::string myString = "Hello My Friends";
 
     //Initiating savefile
     sd_manager->SetSaveFile("/home/cmate/Documents/MateUtilities/Save_File.odt");
     sd_manager->ClearSaveFile();
 
+    LOG("-------------Initialized Mate's Utils-------------", utils::LFlags::INFO);
+
+
     //Saving data for each type
-    
     sd_manager->SaveData(myDouble, GET_VARIABLE_NAME(myDouble));
     sd_manager->SaveData(myInt,    GET_VARIABLE_NAME(myInt));
     sd_manager->SaveData(myFloat,  GET_VARIABLE_NAME(myFloat));

@@ -1,6 +1,8 @@
 #include "../Include/Clock.hpp"
 #include <chrono>
+#include <ctime>
 #include <format>
+#include <string>
 
 namespace utils
 {
@@ -24,6 +26,15 @@ namespace utils
         
         std::string formatted_string = std::format("[{}H:{}M:{}S]", hours.count(), minutes.count(), seconds.count());
         return formatted_string;
+    }
+
+    std::string Clock::get_formated_date_and_time() const
+    {
+        auto date = std::chrono::system_clock::now();
+        auto time_to_date = std::chrono::system_clock::to_time_t(date);
+        std::string string_date = (ctime(&time_to_date));
+
+        return string_date;
     }
 
     void Clock::reset_time() 

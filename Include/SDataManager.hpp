@@ -19,7 +19,8 @@ namespace utils
     {
         public:
 
-            //Union: All members same memory adress, usefull for returning different types from same function
+            //Variant: All members same memory adress, usefull for returning different types from same function
+            // Pointer friendlier than union
             using types = std::variant<
                 int,
                 float,

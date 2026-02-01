@@ -21,6 +21,8 @@ namespace utils
             Logger(const Logger&) = delete;
             Logger &operator=(const Logger&) = delete;
 
+            void SetLogsFolder(std::string path);
+
             void Log(std::string& message, LFlags logger_flag);
 
             void Log(const char* message, LFlags logger_flag);
@@ -31,6 +33,10 @@ namespace utils
         private:
             Logger();
 
+            std::string logs_path;
+
+            std::string current_file;
+
             //Private list of all entries
             std::vector<Logger::LogEntry> current_entries;
 
@@ -39,4 +45,7 @@ namespace utils
     //Macro for logging 
     #define LOG(message, logger_flag) \
         Logger::Instance().Log(message, logger_flag)
+
+    #define SET_LOGS_FOLDER(path) \
+        Logger::Instance().SetLogsFolder(path)
 }

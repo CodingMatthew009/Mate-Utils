@@ -16,6 +16,8 @@ namespace utils
 
             std::string get_formated_time_since_start() const;
 
+            std::string get_formated_date_and_time() const;
+
             template<typename T> void Sleep(T duration)
             {
                 std::this_thread::sleep_for(duration);
@@ -33,4 +35,7 @@ namespace utils
     //Macro for getting formatted runtime as a string
     #define FORMATTED_TIME_SINCE_START() \
         Clock::Instance().get_formated_time_since_start()
+
+    #define FORMATTED_DATE_AND_TIME_SINCE_START() \
+        Clock::Instance().get_formated_date_and_time()
 }
