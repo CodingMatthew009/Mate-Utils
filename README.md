@@ -1,5 +1,5 @@
 
-# Mate's Utils (0.1.5)
+# Mate's Utils (0.1.6)
 
 WIP C++ library including lots of utilities.
 ____________________________________________
@@ -9,11 +9,11 @@ ____________________________________________
     - Basic Clock
     - Color Coded Logger
     - Saving System for Basic Datatypes (int, float, double, bool) 
-    - String saving using SDManager
+        - Save file for Logger
+        - String saving using SDManager
 
 ## Planned Utilities:
     - Class instance saving for SDManager
-    - Save file for Logger handled externally in SDManager
     - Expand Clock functionalities
     + Encrypter based on project seed (Hopefully support for encrypted Data Saving)
 
