@@ -1,8 +1,4 @@
 #include "../Include/SDataManager.hpp"
-#include "../Include/General/Enums.hpp"
-#include <fstream>
-#include <sstream>
-#include <string>
 
 namespace utils
 {
@@ -24,12 +20,12 @@ namespace utils
 
     void SDManager::ClearSaveFile() const
     {
-        std::ofstream data_stream;
+        std::ofstream output_stream;
 
         //Clear saved data
-        data_stream.open(file_path, std::ios::out);
-        data_stream << "";
-        data_stream.close();
+        output_stream.open(file_path, std::ios::out);
+        output_stream << "";
+        output_stream.close();
 
         LOG("Cleared all data inside the save file.", LFlags::INFO);
     }
@@ -40,34 +36,36 @@ namespace utils
         std::ofstream output_stream;
 
         std::string plain_data;
-        std::stringstream buffer;
+        std::stringstream buffer; // Buffer of characters from whole file
 
         input_stream.open(file_path, std::ios::binary);
         if (!input_stream) {LOG("Failed to open save file for encryption", LFlags::FAILED);}
 
         buffer << input_stream.rdbuf();
-        plain_data = buffer.str();
+        plain_data = buffer.str(); //Gets string for stringstream
         input_stream.close();
 
         output_stream.open(file_path, std::ios::binary | std::ios::trunc);
+        if (!output_stream) {LOG("Failed to open save file for encryption", LFlags::FAILED);}
 
         std::string encrypted_data = encrypter->Encrypt(plain_data);
-        output_stream.write(encrypted_data.data(), encrypted_data.size());
+        output_stream.write(encrypted_data.data(), encrypted_data.size()); //.write for binary data
         output_stream.close();
         LOG("Encrypted save file", LFlags::SUCCESS);
     }
 
     std::string SDManager::DecryptSaveFile(Encrypter* encrypter) const
     {
-        std::ifstream data_stream;
-        std::stringstream buffer;
-        std::string encrypted_data;
+        std::ifstream input_stream;
 
-        data_stream.open(file_path, std::ios::binary);
-        if (!data_stream) {LOG("Failed to open save file for decryption", LFlags::FAILED);}
+        std::string encrypted_data;
+        std::stringstream buffer;
+
+        input_stream.open(file_path, std::ios::binary);
+        if (!input_stream) {LOG("Failed to open save file for decryption", LFlags::FAILED);}
         else 
         {
-            buffer << data_stream.rdbuf();
+            buffer << input_stream.rdbuf();
             encrypted_data = buffer.str();
             return encrypter->Decrypt(encrypted_data);
         }
@@ -81,35 +79,37 @@ namespace utils
         std::string line;
         while(std::getline(data_stream, line)) //Go through each line the stream
         {
-            std::istringstream iss(line); //Parse the line into words
             std::string name;
             std::string type;
+
+            std::istringstream iss(line); //Parse the line into words
             iss >> name >> type; //Output fist word to name, second to type
 
+            //If correct variable 
             if(name == data_name && type == data_type)
             {
                 std::string value;
-
                 iss >> value;
 
+                // Create types object for returning any type
                 auto _types = types();
                 if (data_type == "double")
                 {
                     _types = std::stod(value);
                 }
-                if (data_type == "int")
+                else if (data_type == "int")
                 {
                     _types = std::stoi(value);
                 }
-                if (data_type == "float")
+                else if (data_type == "float")
                 {
                    _types = std::stof(value);
                 }
-                if (data_type == "bool")
+                else if (data_type == "bool")
                 {
                     _types = std::stoi(value);
                 }
-                if (data_type == "string")
+                else if (data_type == "string")
                 {
                     _types = helper::strReplace(value, '~', ' ');
                 }
@@ -121,7 +121,7 @@ namespace utils
 
         auto message = std::format("Couldn't find Data with the name: {} of type : {}", data_name, data_type);
         LOG(message, LFlags::ERROR);
-        return types();
+        return types(); //Return empty variant
     }
 
     SDManager::SDManager() {};

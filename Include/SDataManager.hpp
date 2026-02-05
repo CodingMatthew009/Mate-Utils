@@ -1,17 +1,17 @@
 #pragma once
 
-#include <fstream>
-#include <cstdlib>
-#include <sstream>
-#include <string>
-#include <variant>
-#include <type_traits>
-
-
 #include "DataEncrypter.hpp"
 #include "General/Enums.hpp"
 #include "General/Helpers.hpp"
 #include "MLogger.hpp"
+
+
+#include <type_traits>
+#include <fstream>
+#include <sstream> 
+#include <cstdlib>
+#include <variant>
+#include <string>
 
 
 namespace utils
@@ -27,7 +27,8 @@ namespace utils
                 float,
                 double,
                 bool,
-                std::string>;
+                std::string
+            >;
 
             static SDManager& Instance();
 
@@ -51,35 +52,31 @@ namespace utils
             //External Function for Classes planed
             template<typename T> void SaveData(T t, std::string name) const
             {
-                std::ofstream data_stream;
+                std::ofstream output_stream;
 
-                data_stream.open(file_path, std::ios::app);
-                if (!data_stream)
+                output_stream.open(file_path, std::ios::app);
+                if (!output_stream)
                 {
                     LOG("Failed to open SaveFile", LFlags::FAILED);
                 } 
                 else 
                 {
-                    T value;
+                    T value = t;
+                    
+                    //Check if type is string
                     if constexpr(std::is_same_v<T, std::string>)
                     {
+                        //Replace all spaces with special character for correct word parsing
                         value = helper::strReplace(t, ' ', '~');
                     }
-                    else 
-                    {
-                        value = t;
-                    }
 
-                    data_stream << name;
-                    data_stream << " ";
-                    data_stream << helper::VarTypeToString(t);
-                    data_stream << " ";
-                    data_stream << value;
-                    data_stream << "\n";
-                    data_stream.close();
-
-                    std::string message = std::format("Successfully wrote {} to: {}", helper::VarTypeToString(t), file_path);
-                    LOG(message, LFlags::SUCCESS);
+                    output_stream << name;
+                    output_stream << " ";
+                    output_stream << helper::VarTypeToString(t);
+                    output_stream << " ";
+                    output_stream << value;
+                    output_stream << "\n";
+                    output_stream.close();
                 }
             }
 
