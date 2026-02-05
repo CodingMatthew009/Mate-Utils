@@ -5,7 +5,6 @@
 #include "Include/General/Enums.hpp"
 #include "Include/Math/Vector2.hpp"
 #include "Include/SDataManager.hpp"
-#include <chrono>
 #include <thread>
 
 using namespace utils;
@@ -82,13 +81,13 @@ int main(void)
 
 
     //Manual Encrypter test
-    Encrypter* myEncrypter = new Encrypter("b210412bn");
-    auto encrypted_string = myEncrypter->Encrypt("std::string Data");
+    Encrypter myEncrypter = Encrypter("b210412bn");
+    auto encrypted_string = myEncrypter.Encrypt("std::string Data");
     LOG(encrypted_string, LFlags::INFO);
 
     local_clock->Sleep(std::chrono::seconds(2));
 
-    auto decrypted_string = myEncrypter->Decrypt(encrypted_string);
+    auto decrypted_string = myEncrypter.Decrypt(encrypted_string);
     LOG(decrypted_string, LFlags::INFO);
 
     //Finnish Sandbox
