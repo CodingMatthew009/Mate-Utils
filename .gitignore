@@ -1,3 +1,7 @@
 .vscode/
 *.odt
+*.o
 *.bin
+logs/
+
+test

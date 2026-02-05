@@ -23,11 +23,13 @@ int main(void)
     auto* local_clock = &utils::Clock::Instance(); // DO NOT REMOVE, initializes class using current time, may be redone using a macro
     auto* sd_manager = &utils::SDManager::Instance();
     Encrypter* save_encrypter = new Encrypter("Mates's Encryption Key");
-    SET_LOGS_FOLDER("/home/cmate/Documents/MateUtilities/logs"); // KEEP AT THE TOP, some internal logs may break
+    SET_LOGS_FOLDER("/home/mate/Projects/Mate-Utils/logs"); // KEEP AT THE TOP, some internal logs may break
+
+    Vector2 myVector = Vector2(2, 23);
 
 
     //Initiating savefile
-    sd_manager->SetSaveFile("/home/cmate/Documents/MateUtilities/Save_File.odt");
+    sd_manager->SetSaveFile("/home/mate/Projects/Mate-UtilsSave_File.odt");
     sd_manager->ClearSaveFile();
 
     LOG("-------------Initialized Mate's Utils-------------", utils::LFlags::INFO);
