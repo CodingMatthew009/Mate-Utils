@@ -1,5 +1,5 @@
 
-# Mate's Utils (0.2.0) 
+# Mate's Utils (0.2.1) 
 
 WIP C++ library including lots of utilities.
 ____________________________________________
@@ -17,7 +17,7 @@ ____________________________________________
 ## Planned Utilities:
     - Class instance saving for SDManager ? 
     - Expand Clock functionalities
-
+    - Math: Procedural Noise Maps
 
 # Documentation (To be written!)
 
@@ -31,7 +31,6 @@ ____________________________________________
 
 
 ## Vector Docs
-
 
 ## Logger
 

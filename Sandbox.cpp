@@ -29,7 +29,7 @@ int main(void)
 
 
     //Initiating savefile
-    sd_manager->SetSaveFile("/home/mate/Projects/Mate-UtilsSave_File.odt");
+    sd_manager->SetSaveFile("/home/mate/Projects/Mate-Utils/Save_File.odt");
     sd_manager->ClearSaveFile();
 
     LOG("-------------Initialized Mate's Utils-------------", utils::LFlags::INFO);
@@ -79,7 +79,7 @@ int main(void)
 
     local_clock->Sleep(std::chrono::seconds(2));
 
-
+    LOG("Manual Encryption Test", LFlags::INFO);
     //Manual Encrypter test
     Encrypter myEncrypter = Encrypter("b210412bn");
     auto encrypted_string = myEncrypter.Encrypt("std::string Data");

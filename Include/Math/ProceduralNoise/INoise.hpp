@@ -23,7 +23,7 @@ namespace interfaces
         private:
             int seed;
 
-            []
+            unsigned char value_map[][];
 
     };
 }
