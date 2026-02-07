@@ -44,3 +44,8 @@ ____________________________________________
 
 ## Encrypter
 
+## Noise Maps
+```diff
++ Calculated on the CPU, maximum recommended size 200
+```
+
