@@ -3,6 +3,7 @@
 #include "INoise.hpp"
 #include "../General.hpp"
 #include "../Vector2.hpp"
+#include <functional>
 
 
 using namespace utils::mathf;
@@ -21,14 +22,7 @@ namespace utils::Noise
 
                     for (int p = 0; p < size.y; p++)
                     {
-                        collumn.push_back(
-                            fract(
-                                std::sin(
-                                    Vector2::dot(Vector2(c, p),
-                                    Vector2(
-                                        Random::dRangeS(0, 1000000, seed + c * 35281243 + p * 97246126), 
-                                        Random::dRangeS(0, 1000000, seed + c * 28754621 + p * 21634512))) 
-                                        * seed)));
+                        collumn.push_back(hash(Vector2(c, p), seed));
                     }
 
                     value_map.push_back(collumn);

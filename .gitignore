@@ -1,7 +1,12 @@
-.vscode/
+# Files
 *.odt
+*.bmp
 *.o
 *.bin
-logs/
+Sandbox
 
-test
+
+#Folders
+logs/
+.vscode/
+

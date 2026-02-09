@@ -22,8 +22,8 @@ std::string myString = "Hello My Friends";
 
 Vector2 myVector = Vector2(2, 23);
 
-Noise::WhiteNoise myWhiteNoise(500, Vector2(100, 100));
-Noise::ValueNoise myValueNoise(500, Vector2(300, 300), Vector2(200, 200));
+Noise::WhiteNoise myWhiteNoise(500, Vector2(100, 100)); // Also computed on the CPU but much less work
+Noise::ValueNoise myValueNoise(500, Vector2(300, 300), Vector2(200, 200)); // Use carefully, computed on the CPU!!
 
 
 int main(void)
