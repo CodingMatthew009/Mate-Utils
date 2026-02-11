@@ -1,4 +1,4 @@
-#include "../Include/SDataManager.hpp"
+#include "../Include/CMate-Core.h"
 
 namespace cmate::core
 {

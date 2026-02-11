@@ -1,5 +1,5 @@
-#include "../Include/MLogger.hpp"
-#include "../Include/Clock.hpp"
+#include "../Include/CMate-Core.h"
+
 #include <vector>
 #include <iostream>
 #include <fstream>

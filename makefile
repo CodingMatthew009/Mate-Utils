@@ -1,22 +1,28 @@
 #Build Lib and Sandbox
 FLAGS = -Wall -std=c++20
+
 FILES = $(wildcard Source/*.cpp) $(wildcard Source/Math/*.cpp)  
 FILES_OBJ = $(FILES:.cpp=.o)
 
-cmate-core.a: $(FILES_OBJ)
-	ar rcs cmate-core.a $(FILES_OBJ)
+FILES_SANDBOX = Sandbox.cpp   
+FILES_OBJ_SANDBOX = Sandbox.o
+
+LIB = cmate-core.a
+SANDBOX = Sandbox
+
+lib: $(LIB)
+
+$(LIB): $(FILES_OBJ)
+		ar rcs $@ $^
+
+
+Sandbox: $(SANDBOX)
+
+$(SANDBOX): $(FILES_OBJ_SANDBOX) $(LIB)
+		g++ $(FLAGS) -o $(SANDBOX) $(FILES_OBJ_SANDBOX) $(LIB)
 
 %.o: %.cpp
 		g++ $(FLAGS) -c $< -o $@
 
 clean:
-		rm cmate-core.a $(FILES_OBJ)
-
-#Sandbox: $(FILES_OBJ)
-#		g++ -o Sandbox $(FILES_OBJ)
-
-#%.o: %.cpp
-#		g++ $(FLAGS) -c $< -o $@
-
-#clean:
-#		rm Sandbox $(FILES_OBJ)
+		rm $(LIB) $(FILES_OBJ) $(SANDBOX) 

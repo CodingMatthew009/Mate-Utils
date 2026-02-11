@@ -1,4 +1,4 @@
-#include "../../Include/Math/Random.hpp"
+#include "../../Include/CMate-Core.h"
 #include <random>
 
 namespace cmate::core::mathf 

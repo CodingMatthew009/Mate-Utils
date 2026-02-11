@@ -1,10 +1,5 @@
 
-#include "Include/Clock.hpp"
-#include "Include/DataEncrypter.hpp"
-#include "Include/MLogger.hpp"
-#include "Include/General/Enums.hpp"
-#include "Include/Math/Random.hpp"
-#include "Include/SDataManager.hpp"
+#include "Include/CMate-Core.h"
 
 #include <thread>
 
