@@ -1,8 +1,11 @@
 #pragma once
 #include "./General/Enums.hpp"
+#include "./General/Helpers.hpp"
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 namespace cmate::core 
 {
@@ -23,9 +26,26 @@ namespace cmate::core
 
             void SetLogsFolder(std::string path);
 
-            void Log(std::string& message, LFlags logger_flag=LFlags::UNDEFINED);
+            template<typename type>
+            void Log(const type& message, LFlags logger_flag)
+            {
+                std::string time = FORMATTED_TIME_SINCE_START();
+                std::string flag = format_flag(logger_flag);
+                std::string message_str = helper::AnyToString(message);
 
-            void Log(const char* message, LFlags logger_flag=LFlags::UNDEFINED);
+                std::cout << time << " " << flag << message << std::endl;
+        
+                //Writing line to the logs folder
+                std::ofstream log_stream;
+                log_stream.open(current_file, std::ios::app);
+                if (!log_stream) {std::cout << "Failed to open logs folder \n";}
+                else 
+                {
+                    log_stream << time << " " << flag << message_str << std::endl;
+                }
+        
+                current_entries.push_back(LogEntry({time, message_str, logger_flag}));
+            }
 
             //Returns vector of logs 
             std::vector<LogEntry> logs() const;

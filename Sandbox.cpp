@@ -37,8 +37,8 @@ int main(void)
         sd_manager->SaveData(myString, "myString");
     
         int x = 5;
-        int y = 10;
-        sd_manager->SaveDataBlock("MyVector", x, y);
+        std::string yomama = "fuck of ";
+        sd_manager->SaveDataBlock("MyVector", x, yomama);
 
         sd_manager->EncryptSaveFile(save_encrypter); 
     }
@@ -77,8 +77,7 @@ int main(void)
 
     for (auto _data : loaded_data_block)
     {
-        int data = std::get<int> (_data);
-        std::string converted_data = std::to_string(data);
+        std::string converted_data = helper::GetDataFromVariant(_data);
         LOG(converted_data, LFlags::INFO);
     }
 

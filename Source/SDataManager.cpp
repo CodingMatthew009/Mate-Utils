@@ -137,7 +137,7 @@ namespace cmate::core
             std::istringstream iss(line); //Parse the line into words
             iss >> name; //Output fist word to name
 
-            //If correct variable 
+            //If correct data_block
             if(name == block_name)
             {
                 std::vector<types> block_members;
@@ -146,12 +146,12 @@ namespace cmate::core
                 while (current_word != "§")
                 {
                     auto member = types();
-                    std::string name_garbage;
+                    std::string name_garbage; // Gets ignored
                     std::string type;
                     std::string value;
 
                     iss >> name_garbage >> type >> value;
-                    current_word = name_garbage;
+                    current_word = name_garbage; 
 
 
                     // Create types object for returning any type

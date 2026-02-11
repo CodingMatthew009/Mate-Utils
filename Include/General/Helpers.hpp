@@ -1,5 +1,9 @@
 #pragma once
+#include <concepts>
+#include <ostream>
+#include <sstream>
 #include <string>
+#include <any>
 
 
 namespace cmate::core::helper
@@ -42,6 +46,24 @@ namespace cmate::core::helper
         {
             return "string";
         }
+    }
+
+    template<typename type>
+    inline static std::string AnyToString(type value)
+    {
+        std::ostringstream os;
+        os << value;
+        return os.str();
+    }
+
+    template<typename... Ts> 
+    inline static std::string GetDataFromVariant(std::variant<Ts...>& v)
+    {
+        return std::visit([] (auto&& value) -> std::string {
+            std::ostringstream os;
+            os << value;
+            return os.str();
+        }, v);
     }
 
     //Macro for getting the variable name, may be relocated
