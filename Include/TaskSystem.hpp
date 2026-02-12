@@ -1,10 +1,12 @@
+
+
+
 // Class for executing function after n time (may be relocated)
 struct TimedTask
 {
     template<typename time_type = std::chrono::milliseconds> 
     TimedTask(const char* name, time_type time, std::function<void()> function)
     {
-        tasks.push_back()
         task_thread = std::thread([time, this, function] {
             if (time != std::chrono::milliseconds(0))
             {
@@ -35,16 +37,6 @@ struct TimedTask
     inline void join_task()
     {
         task_thread.join();
-    }
-
-    static std::vector<TimedTask> tasks;
-
-    static inline void join_all_tasks()
-    {
-        for (auto& task : tasks)
-        {
-            task.join_task();
-        }
     }
 
     private:            

@@ -28,14 +28,14 @@ namespace cmate::core
         auto duration = std::chrono::high_resolution_clock::now() - start_time;
 
         auto hours = std::chrono::duration_cast<std::chrono::hours> (duration);
-        duration - hours;
+        duration -= hours;
 
         auto minutes = std::chrono::duration_cast<std::chrono::minutes> (duration);
-        duration - minutes;
+        duration -= minutes;
 
         auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
 
-        std::string formatted_string = std::format("[{}H:{}M:{}S]", hours.count(), minutes.count(), seconds.count());
+        std::string formatted_string = std::format("[{:02}H:{:2}M:{:2}S]", hours.count(), minutes.count(), seconds.count());
         return formatted_string;
     }
 

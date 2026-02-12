@@ -38,11 +38,11 @@ namespace cmate::core
 
             std::string get_formated_date_and_time() const;
 
-            template<typename time_type> double get_time_since_start(time_type format)
+            template<typename time_type> double get_time_since_start()
             {
                 auto duration = std::chrono::high_resolution_clock::now() - start_time;
 
-                return std::chrono::duration_cast<format>(duration).count();
+                return std::chrono::duration_cast<time_type>(duration).count();
             }
 
             template<typename time_type> void Sleep(time_type time)
@@ -51,11 +51,11 @@ namespace cmate::core
             }
 
             void reset_clock();
-
-            std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
-            std::chrono::time_point<std::chrono::high_resolution_clock> date;
         private:
             PClock();
+            
+            std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
+            std::chrono::time_point<std::chrono::high_resolution_clock> date;
 
     }; 
 
