@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <algorithm>
 
 #include "Math/General.hpp"
 
@@ -16,6 +17,10 @@ namespace cmate::core
         Color() {};
         Color(uint8_t red, uint8_t green, uint8_t blue)
         {   
+            red = std::clamp((int)red, 0, 255);
+            green = std::clamp((int)green, 0, 255);
+            blue = std::clamp((int)blue, 0, 255);
+
             R = red; G = green; B = blue;
         }
 
@@ -79,24 +84,4 @@ namespace cmate::core
         double value = (double)(color.R + color.G + color.B) / 3 / 255;
         return value;
     }
-
-    inline std::vector<Color> ValueMapToPixelMap(std::vector<double> values)
-    {
-        std::vector<Color> pixels;
-        for (int c = 0; c < values.size(); c++)
-        {
-            pixels.push_back(ValueToColor(values[c]));
-        }
-        return pixels;
-    } 
-
-    inline std::vector<double> PixelMapToValueMap(std::vector<Color> pixels)
-    {
-        std::vector<double> values;
-        for (int i = 0; i < pixels.size(); i++)
-        {
-            values.push_back(ColorToValue(pixels[i]));
-        }
-        return values;
-    } 
 }
