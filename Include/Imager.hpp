@@ -26,9 +26,9 @@ namespace cmate::core
         Image(Image& other);
         Image(std::vector<std::vector<Color>> array_2d);
 
-        Image ValueMapToImage(std::vector<double> values, int width);
+        static Image ValueMapToImage(std::vector<double> values, int width);
     
-        std::vector<double> ImageToValueMap(Image& image);
+        static std::vector<double> ImageToValueMap(Image& image);
     };
 
     struct ColorRange

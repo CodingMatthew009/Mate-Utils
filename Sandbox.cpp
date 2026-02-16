@@ -42,9 +42,11 @@ int main(void)
         1, 0, 1, 0, 1,
         0, 1, 0, 1, 0
     };
-
     int width = 5;
-    Imager::ValuesToBitmap(test_array, width, "/home/mate/Projects/Mate-Utils/test.bmp");
+
+
+    Image myImage = Image::ValueMapToImage(test_array, width);
+    Imager::SaveImage(myImage, "/home/mate/Projects/Mate-Utils/test.bmp");
 
     //Saving block
     {
