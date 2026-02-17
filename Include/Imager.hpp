@@ -25,6 +25,7 @@ namespace cmate::core
         Image(std::vector<Color> pixels, int im_width);
         Image(Image& other);
         Image(std::vector<std::vector<Color>> array_2d);
+        Image() {}
 
         static Image ValueMapToImage(std::vector<double> values, int width);
     
